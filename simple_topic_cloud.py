@@ -3,10 +3,13 @@ import time
 import gensim
 import jieba
 import jieba.analyse
+jieba.initialize()
 import pandas as pd
 import numpy as np
 from sklearn.manifold import TSNE
 from sklearn.cluster import AgglomerativeClustering
+import matplotlib
+matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 
 
@@ -26,7 +29,7 @@ def build_model(corpus_fname):
     time1 = time.time()
     lines = [jieba.lcut(corpus) for corpus in corpus_list]
     print('分词时间 %f s' % (time.time() - time1))
-    print('开始训练Word2Vec模型')
+    print('开始训练Word2Vec模型...')
     time1 = time.time()
     model = gensim.models.Word2Vec(lines)
     print('word2vec模型训练时间 %f s' % (time.time() - time1))
@@ -35,7 +38,7 @@ def build_model(corpus_fname):
 
 def analyze_target(target_fname, model):
     target_text = read2unicode(target_fname)
-    print('开始提取目标文本关键词')
+    print('开始提取目标文本关键词...')
     time1 = time.time()
     kw_list = jieba.analyse.extract_tags(target_text, topK=500, withWeight=True,
                                          allowPOS=['n', 'v', 'nr', 'ns', 'vn', 'a', 'l'])
@@ -48,13 +51,14 @@ def analyze_target(target_fname, model):
     ac.fit(kw_vector)
     kw_label = pd.Series(ac.labels_, index=kw_vector.index, name='label')
     tsne = TSNE()
-    print('开始进行t-SNE降维')
+    print('开始进行t-SNE降维...')
     time1 = time.time()
     kw_tsne_v = tsne.fit_transform(n_kw_vector)
     print('t-SNE降维时间: %f s' % (time.time() - time1))
     kw_tsne_df = pd.DataFrame(kw_tsne_v, index=n_kw_vector.index, columns=['x', 'y'])
     kw_df = pd.concat([kw_label, kw_tsne_df, filtered_kw_weight], axis=1)
     return kw_df
+
 
 def draw_fig(kw_df, output_fname):
     print('开始绘图....')

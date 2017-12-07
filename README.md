@@ -3,17 +3,17 @@
 * 示例图片（相对位置表示词的相对相似度， 大小表示词的权重，颜色及词的前缀表示词的类别）：
 ![image](https://github.com/liwt31/SimpleTopicCloud/raw/master/china_weibo.png)
 
-## 环境要求（全部可以通过`pip`安装）
+## 环境要求（推荐全部通过`pip`安装）
 * Python3
 * [Gensim](https://github.com/RaRe-Technologies/gensim)，用于Word2Vec模型
 * [sklearn](http://scikit-learn.org/stable/)，用于聚类及降维
 * [Pandas](http://pandas.pydata.org/), numpy
-* [matplotlib](http://matplotlib.org/)，用于绘图
+* [matplotlib](http://matplotlib.org/)，用于绘图，**需要添加中文支持**（见[matplotlib图例中文乱码? - 知乎](https://www.zhihu.com/question/25404709)）。
 * [结巴分词](https://github.com/fxsjy/jieba)，用于分词
+* matplotlib需要添加中文支持
 
 ## 如何使用
-* 在TutorialNotebook文件夹内，保存了用于演示的jupyter-notebook版本，可以生成本说明中的示例图片
-* 或者直接使用simple_topic_cloud为目标文本绘制词云，可以通过`python simple_topic_cloud.py -h`查看帮助信息：
+* 直接使用simple_topic_cloud.py为目标文本绘制词云，可以通过`python simple_topic_cloud.py -h`查看帮助信息：
 ```
 usage: simple_topic_cloud.py [-h] [-c CORPUS_FNAME | -l LOAD_MODEL_FNAME]
                              [-s SAVE_MODEL_FNAME] [-o OUTPUT_FNAME]
@@ -32,3 +32,9 @@ optional arguments:
   -o OUTPUT_FNAME      输出图片文件名，默认为以时间为文件名的png格式图片
 
 ```
+* 在本文件夹内执行`python simple_topic_cloud.py -c TutorialNotebook/corpus_weibo.txt TutorialNotebook/target_weibo.txt`即可生成本说明中的示例图片。执行该程序大约需要2分钟，其中大部分时间用于训练Word2Vec模型。
+* 在TutorialNotebook文件夹内，保存了用于演示的jupyter-notebook版本，可以生成本说明中的示例图片
+
+## 注意事项
+* 只支持utf-8或者GBK作为输入文本编码
+* 在Linux环境下matplotlib可能遇到包括中文字体在内的各种环境问题。尽管这些问题不难解决，仍然推荐使用中文Windows系统运行
