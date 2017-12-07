@@ -10,7 +10,6 @@
 * [Pandas](http://pandas.pydata.org/), numpy
 * [matplotlib](http://matplotlib.org/)，用于绘图，**需要添加中文支持**（见[matplotlib图例中文乱码? - 知乎](https://www.zhihu.com/question/25404709)）。
 * [结巴分词](https://github.com/fxsjy/jieba)，用于分词
-* matplotlib需要添加中文支持
 
 ## 如何使用
 * 直接使用simple_topic_cloud.py为目标文本绘制词云，可以通过`python simple_topic_cloud.py -h`查看帮助信息：
