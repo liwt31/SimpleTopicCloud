@@ -1,7 +1,7 @@
 # 简单词云生成 Simple Topic Cloud Generator
 * 利用Word2Vec对关键词（主题词）进行表示， AgglomerativeClustering进行聚类，t-SNE进行降维可视化。绘图采用`matplotlib`。
 * 示例图片（相对位置表示词的相对相似度， 大小表示词的权重，颜色及词的前缀表示词的类别）：
-![image](https://github.com/liwt31/SimpleTopicCloud/raw/master/china_weibo.png)
+![image](china_weibo.png)
 
 ## 环境要求（推荐全部通过`pip`安装）
 * Python3
@@ -31,7 +31,7 @@ optional arguments:
   -o OUTPUT_FNAME      输出图片文件名，默认为以时间为文件名的png格式图片
 
 ```
-* 在本文件夹内执行`python simple_topic_cloud.py -c TutorialNotebook/corpus_weibo.txt TutorialNotebook/target_weibo.txt`即可生成本说明中的示例图片。执行该程序大约需要2分钟，其中大部分时间用于训练Word2Vec模型。
+* 在本文件夹内执行`python simple_topic_cloud.py -c TutorialNotebook/corpus_weibo.txt TutorialNotebook/target_weibo.txt`即可生成本说明中的示例图片。执行该程序大约需要2分钟，其中大部分时间用于训练Word2Vec模型。为了演示方便起见，训练Word2Vec的语料库大小远没有达到可用标准，因此结果的合理性受到一定影响。如果需要更好的结果，请按需自行搜集语料库。
 * 在TutorialNotebook文件夹内，保存了用于演示的jupyter-notebook版本，可以生成本说明中的示例图片
 
 ## 注意事项

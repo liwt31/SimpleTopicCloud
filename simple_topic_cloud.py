@@ -1,3 +1,6 @@
+"""
+Generate topic cloud for certain text using Word2Vec
+"""
 import argparse
 import time
 import gensim
@@ -14,6 +17,11 @@ from matplotlib import pyplot as plt
 
 
 def read2unicode(fname):
+    """
+    Read gbk or utf-8 encoded text in `fname` and transform it into python3 `str` (`unicode`)
+    :param fname: file name of the file to read
+    :return: content of the file in python3 `str`
+    """
     with open(fname, 'rb') as fin:
         raw_text = fin.read()
     try:
@@ -24,6 +32,11 @@ def read2unicode(fname):
 
 
 def build_model(corpus_fname):
+    """
+    Build Word2Vec model using corpus in `corpus_fname`
+    :param corpus_fname: file name of the plain text corpus
+    :return: `gensim` model trained on the corpus
+    """
     corpus_list = read2unicode(corpus_fname).splitlines()
     print('开始分词...')
     time1 = time.time()
@@ -36,8 +49,15 @@ def build_model(corpus_fname):
     return model
 
 
-def analyze_target(target_fname, model):
-    target_text = read2unicode(target_fname)
+def analyze_text(target_text, model):
+    """
+    Analyze the target text based on Word2Vec model `model` to provide data for plotting
+    :param target_text: plain text `str` to be analyzed
+    :param model: `gensim` Word2Vec model for word vector
+    :return: pandas `DataFrame` of the information of the keywords of the target text,
+             including clustering label, 2 dimensional description for scatter plotting
+             and relative importance by TF-IDF.
+    """
     print('开始提取目标文本关键词...')
     time1 = time.time()
     kw_list = jieba.analyse.extract_tags(target_text, topK=500, withWeight=True,
@@ -60,7 +80,13 @@ def analyze_target(target_fname, model):
     return kw_df
 
 
-def draw_fig(kw_df, output_fname):
+def plot_fig(kw_df, output_fname):
+    """
+    Plot the word cloud according to the text keywords infomation obtained in `analyze_text`
+    :param kw_df: Text keywords infomation obtained in `analyze_text`
+    :param output_fname: where to save the plot
+    :return: None
+    """
     print('开始绘图....')
     plt.figure(figsize=(18, 18))
     axis = plt.subplot(111)
@@ -107,5 +133,6 @@ if __name__ == '__main__':
         model = None
     if model and save_model_fname:
         model.save(save_model_fname)
-    kw_df = analyze_target(target_fname, model)
-    draw_fig(kw_df, output_fname)
+    target_text = read2unicode(target_fname)
+    kw_df = analyze_text(target_text, model)
+    plot_fig(kw_df, output_fname)
